@@ -11,14 +11,7 @@ public class JDBCDriver {
         //A try with resources ensures objects that implement Autocloseable are closed after statement
         //alternatively a finally clause could be used.
         try {
-            Properties dbProps = new Properties();
-            dbProps.load( new FileReader ("src/main/resources/database.properties") );
-            //could locate the database.properties file in the project root folder
-            // and pass filename to FileReader
-            Connection conn = DriverManager.getConnection(
-                    dbProps.getProperty("db.url"),
-                    dbProps.getProperty("db.username"),
-                    dbProps.getProperty("db.password"));
+            Connection conn = ConnectionFactory.getConnection();
             Statement statement = conn.createStatement();
             ResultSet rs = statement.executeQuery("SELECT * FROM film_text");
             while (rs.next()) {
@@ -28,10 +21,6 @@ public class JDBCDriver {
             statement.close();
             conn.close(); // not needed as try with resources is used
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }
