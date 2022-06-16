@@ -30,4 +30,13 @@ public class ConnectionFactory {
         }
         return connection;
     }
+    public static void closeConnection(){
+        if (connection!=null){
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
